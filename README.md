@@ -1,42 +1,25 @@
-![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
+![](../../workflows/gds/badge.svg) ![](../../workflows/test/badge.svg)
 
-# Tiny Tapeout Verilog Project Template
+# Micro tile test for GF180MCU (experimental)
 
-- [Read the documentation for project](docs/info.md)
+A micro tile is a small hardened macro. Four micro tiles are placed inside an ordinary Tiny Tapeout 1x1 project
+(the [container](https://github.com/ttcodebot/ttgf-microtile-container)), which selects one of them at a time.
 
-## What is Tiny Tapeout?
+This repository hardens the test design `tt_um_micro_test` (an 8-bit counter that mirrors its inputs while in reset)
+as a micro tile for the `gf180mcuD` PDK.
 
-Tiny Tapeout is an educational project that aims to make it easier and cheaper than ever to get your digital and analog designs manufactured on a real chip.
+| Property        | Value                                                                           |
+| --------------- | ------------------------------------------------------------------------------- |
+| Size            | 151.2 x 66.64 um (270 x 17 standard cell sites)                                 |
+| Ports           | `clk`, `rst_n`, `ui_in[7:0]`, `uo_out[7:0]`                                     |
+| Signal pins     | Metal3, east edge, 3.36 um pitch                                                |
+| Routing layers  | Metal1 to Metal3 (Metal4 belongs to the container)                              |
+| Standard cells  | 15 rows of 258 sites; 16 sites per row are blocked by the Metal2 power stripes  |
+| Power, vertical | Metal2, two VPWR/VGND pairs, 1.6 um wide, connected to the Metal1 rails         |
+| Power pins      | Metal3, two horizontal VPWR/VGND pairs, 1.6 um wide, across the whole core area |
 
-To learn more and get started, visit https://tinytapeout.com.
+The container runs its vertical Metal4 power stripes over the micro tile and connects them to the Metal3 stripes
+where they cross.
 
-## Set up your Verilog project
-
-1. Add your Verilog files to the `src` folder.
-2. Edit the [info.yaml](info.yaml) and update information about your project, paying special attention to the `source_files` and `top_module` properties. If you are upgrading an existing Tiny Tapeout project, check out our [online info.yaml migration tool](https://tinytapeout.github.io/tt-yaml-upgrade-tool/).
-3. Edit [docs/info.md](docs/info.md) and add a description of your project.
-4. Adapt the testbench to your design. See [test/README.md](test/README.md) for more information.
-
-The GitHub action will automatically build the ASIC files using [LibreLane](https://www.zerotoasiccourse.com/terminology/librelane/).
-
-## Enable GitHub actions to build the results page
-
-- [Enabling GitHub Pages](https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part)
-
-## Resources
-
-- [FAQ](https://tinytapeout.com/faq/)
-- [Digital design lessons](https://tinytapeout.com/digital_design/)
-- [Learn how semiconductors work](https://tinytapeout.com/siliwiz/)
-- [Join the community](https://tinytapeout.com/discord)
-- [Build your design locally](https://www.tinytapeout.com/guides/local-hardening/)
-
-## What next?
-
-- [Submit your design to the next shuttle](https://app.tinytapeout.com/).
-- Edit [this README](README.md) and explain your design, how it works, and how to test it.
-- Share your project on your social network of choice:
-  - LinkedIn [#tinytapeout](https://www.linkedin.com/search/results/content/?keywords=%23tinytapeout) [@TinyTapeout](https://www.linkedin.com/company/100708654/)
-  - Mastodon [#tinytapeout](https://chaos.social/tags/tinytapeout) [@matthewvenn](https://chaos.social/@matthewvenn)
-  - X (formerly Twitter) [#tinytapeout](https://twitter.com/hashtag/tinytapeout) [@tinytapeout](https://twitter.com/tinytapeout)
-  - Bluesky [@tinytapeout.com](https://bsky.app/profile/tinytapeout.com)
+The micro tile needs the `microtile-gf180` branch of [tt-support-tools](https://github.com/ttcodebot/tt-support-tools/tree/microtile-gf180),
+which defines the tile size, the pin template and the power grid (`micro_librelane_config` in `tech.py`).

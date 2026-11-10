@@ -13,22 +13,17 @@ module tb ();
     #1;
   end
 
-  // Wire up the inputs and outputs:
+  // Wire up the inputs and outputs. A micro tile only has clk, rst_n, ui_in and uo_out:
   reg clk;
   reg rst_n;
-  reg ena;
   reg [7:0] ui_in;
-  reg [7:0] uio_in;
   wire [7:0] uo_out;
-  wire [7:0] uio_out;
-  wire [7:0] uio_oe;
 `ifdef GL_TEST
   wire VPWR = 1'b1;
   wire VGND = 1'b0;
 `endif
 
-  // Replace tt_um_example with your module name:
-  tt_um_example user_project (
+  tt_um_micro_test user_project (
 
       // Include power ports for the Gate Level test:
 `ifdef GL_TEST
@@ -36,14 +31,10 @@ module tb ();
       .VGND(VGND),
 `endif
 
-      .ui_in  (ui_in),    // Dedicated inputs
-      .uo_out (uo_out),   // Dedicated outputs
-      .uio_in (uio_in),   // IOs: Input path
-      .uio_out(uio_out),  // IOs: Output path
-      .uio_oe (uio_oe),   // IOs: Enable path (active high: 0=input, 1=output)
-      .ena    (ena),      // enable - goes high when design is selected
-      .clk    (clk),      // clock
-      .rst_n  (rst_n)     // not reset
+      .ui_in (ui_in),   // Dedicated inputs
+      .uo_out(uo_out),  // Dedicated outputs
+      .clk   (clk),     // clock
+      .rst_n (rst_n)    // not reset
   );
 
 endmodule

@@ -17,6 +17,8 @@ jobs:
         uses: TinyTapeout/tt-gds-action@ttgf26c
         with:
           pdk: gf180mcuD
+          tools-repo: ttcodebot/tt-support-tools
+          tools-ref: microtile-gf180
 
   precheck:
     needs: gds
@@ -24,6 +26,9 @@ jobs:
     steps:
       - name: Run Tiny Tapeout Precheck
         uses: TinyTapeout/tt-gds-action/precheck@ttgf26c
+        with:
+          tools-repo: ttcodebot/tt-support-tools
+          tools-ref: microtile-gf180
 
   gl_test:
     needs: gds
@@ -36,12 +41,3 @@ jobs:
 
       - name: GL test
         uses: TinyTapeout/tt-gds-action/gl_test@ttgf26c
-
-  viewer:
-    needs: gds
-    runs-on: ubuntu-24.04
-    permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
-    steps:
-      - uses: TinyTapeout/tt-gds-action/viewer@ttgf26c

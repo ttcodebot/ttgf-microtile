@@ -58,13 +58,12 @@
   "FP_IO_HLENGTH": 2,
   "FP_IO_VLENGTH": 2,
 
-  "FP_PDN_VPITCH": 38.87,
+  "//": "Micro tile: the tools set the top routing layer (Metal3) and the power grid (Metal2 and",
+  "//": "Metal3 stripes), see micro_librelane_config in tt-support-tools/tech.py.",
+  "//": "Do not override RT_MAX_LAYER or the PDN_* variables here.",
 
   "//": "Clock",
   "RUN_CTS": 1,
-
-  "//": "Don't generate power rings",
-  "FP_PDN_MULTILAYER": 0,
 
   "//": "MAGIC_DEF_LABELS may cause issues with LVS",
   "MAGIC_DEF_LABELS": 0,
