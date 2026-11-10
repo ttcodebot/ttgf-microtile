@@ -1,0 +1,74 @@
+name: sweep
+
+# Capacity sweep: hardens a generated design (or a Wokwi project) as a micro tile.
+# See sweep/gen.py. Start one run per point with `gh workflow run sweep.yaml -f ...`.
+
+on:
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: 'synthetic or wokwi'
+        type: choice
+        options:
+          - synthetic
+          - wokwi
+        default: synthetic
+      flops:
+        description: 'synthetic: number of flops'
+        default: '32'
+      logic:
+        description: 'synthetic: gate pairs per flop'
+        default: '1'
+      wokwi_id:
+        description: 'wokwi: project id'
+        default: '0'
+      density:
+        description: 'PL_TARGET_DENSITY_PCT'
+        default: '60'
+
+run-name: sweep ${{ inputs.kind }} flops=${{ inputs.flops }} logic=${{ inputs.logic }} wokwi=${{ inputs.wokwi_id }} density=${{ inputs.density }}
+
+jobs:
+  gds:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v6
+
+      - name: Generate design
+        shell: bash
+        run: >
+          python3 sweep/gen.py "${{ inputs.kind }}"
+          --flops "${{ inputs.flops }}" --logic "${{ inputs.logic }}"
+          --wokwi-id "${{ inputs.wokwi_id }}" --density "${{ inputs.density }}"
+
+      - name: Build GDS
+        uses: TinyTapeout/tt-gds-action@ttgf26c
+        with:
+          pdk: gf180mcuD
+          tools-repo: ttcodebot/tt-support-tools
+          tools-ref: microtile-gf180
+
+      - name: Summarize
+        if: always()
+        shell: bash
+        run: |
+          python3 sweep/summary.py | tee sweep_result.json
+          cat sweep_result.json >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload sweep result
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: sweep_result
+          path: sweep_result.json
+
+  precheck:
+    needs: gds
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Run Tiny Tapeout Precheck
+        uses: TinyTapeout/tt-gds-action/precheck@ttgf26c
+        with:
+          tools-repo: ttcodebot/tt-support-tools
+          tools-ref: microtile-gf180
