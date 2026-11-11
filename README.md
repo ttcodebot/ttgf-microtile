@@ -23,3 +23,16 @@ where they cross.
 
 The micro tile needs the `microtile-gf180` branch of [tt-support-tools](https://github.com/ttcodebot/tt-support-tools/tree/microtile-gf180),
 which defines the tile size, the pin template and the power grid (`micro_librelane_config` in `tech.py`).
+
+## Capacity
+
+`sweep/` holds a capacity sweep: `sweep/gen.py` turns this repository into a generated design (N flops with K gate
+pairs each) or a Wokwi project, and the `sweep` workflow hardens and prechecks it as a micro tile. Results of 39
+runs (LibreLane 3.0.14):
+
+- Designs up to about 65 % of the core area (about 5500 um2 of cells, 100-200 cells, up to about 36 flops) fit
+  reliably. Logic-heavy designs passed up to 81 %.
+- Wokwi projects: gates + 4 x flip-flops up to about 200 parts. The largest that passed has 240 gates and 4
+  flip-flops.
+- The limit is detailed placement: the rows are short and cut by the Metal2 power stripes and the tap cells. Every
+  design that could be placed also passed routing, DRC, LVS and precheck.
