@@ -18,7 +18,7 @@ jobs:
         with:
           pdk: gf180mcuD
           tools-repo: ttcodebot/tt-support-tools
-          tools-ref: microtile-gf180
+          tools-ref: microtile
 
   precheck:
     needs: gds
@@ -28,7 +28,7 @@ jobs:
         uses: TinyTapeout/tt-gds-action/precheck@ttgf26c
         with:
           tools-repo: ttcodebot/tt-support-tools
-          tools-ref: microtile-gf180
+          tools-ref: microtile
 
   gl_test:
     needs: gds

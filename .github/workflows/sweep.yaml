@@ -47,7 +47,7 @@ jobs:
         with:
           pdk: gf180mcuD
           tools-repo: ttcodebot/tt-support-tools
-          tools-ref: microtile-gf180
+          tools-ref: microtile
 
       - name: Summarize
         if: always()
@@ -71,4 +71,4 @@ jobs:
         uses: TinyTapeout/tt-gds-action/precheck@ttgf26c
         with:
           tools-repo: ttcodebot/tt-support-tools
-          tools-ref: microtile-gf180
+          tools-ref: microtile
