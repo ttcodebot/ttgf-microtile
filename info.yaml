@@ -1,6 +1,6 @@
 # Tiny Tapeout project information
 project:
-  title:        "Micro tile test (GF180MCU)"      # Project title
+  title:        "Adversarial micro tile adv_tie (antenna test)"      # Project title
   author:       "Tiny Tapeout"      # Your name
   discord:      ""      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
   description:  "Micro tile test module: counter / input mirror"      # One line description of what your project does
@@ -11,13 +11,13 @@ project:
   tiles: "micro"
 
   # Your top module name must start with "tt_um_". Make it unique by including your github username:
-  top_module:  "tt_um_micro_test"
+  top_module:  "tt_um_micro_adv_tie"
 
   # List your project's source files here.
   # Source files must be in ./src and you must list each source file separately, one per line.
   # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
   source_files:
-    - "tt_um_micro_test.v"
+    - "tt_um_micro_adv_tie.v"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 # This section is for the datasheet/website. Use descriptive names (e.g., RX, TX, MOSI, SCL, SEG_A, etc.).
