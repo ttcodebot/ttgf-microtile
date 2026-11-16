@@ -1,14 +1,13 @@
 ## How it works
 
-This is a test design for micro tiles: small macros that are placed inside a 1x1 container project.
-
-While `rst_n` is low, the inputs `ui_in` are copied to the outputs `uo_out`. When `rst_n` is high, the outputs show
-an 8-bit counter that increments on every rising edge of `clk`.
+A generated design that fills most of a micro tile: a 28-bit state register, where the next value of
+each bit is the previous bit mixed with 3 gate pairs fed by other bits. `ui_in` is mixed into the first
+eight bits; `uo_out` is an XOR fold of all the bits.
 
 ## How to test
 
-Hold `rst_n` low and check that `uo_out` follows `ui_in`. Then release `rst_n`, apply a clock, and watch the counter
-on `uo_out`.
+Reset with all inputs low: the outputs are 0. Release `rst_n`, set a value on the inputs and apply one clock:
+the outputs show that value.
 
 ## External hardware
 
