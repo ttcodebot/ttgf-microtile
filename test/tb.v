@@ -13,17 +13,20 @@ module tb ();
     #1;
   end
 
-  // Wire up the inputs and outputs. A micro tile only has clk, rst_n, ui_in and uo_out:
+  // Wire up the inputs and outputs. A micro tile with 2 uio pins:
   reg clk;
   reg rst_n;
   reg [7:0] ui_in;
   wire [7:0] uo_out;
+  reg [1:0] uio_in;
+  wire [1:0] uio_out;
+  wire [1:0] uio_oe;
 `ifdef GL_TEST
   wire VPWR = 1'b1;
   wire VGND = 1'b0;
 `endif
 
-  tt_um_micro_test user_project (
+  tt_um_mgf_r2_d0d user_project (
 
       // Include power ports for the Gate Level test:
 `ifdef GL_TEST
@@ -33,6 +36,9 @@ module tb ();
 
       .ui_in (ui_in),   // Dedicated inputs
       .uo_out(uo_out),  // Dedicated outputs
+      .uio_in(uio_in),  // IOs: Input path
+      .uio_out(uio_out),  // IOs: Output path
+      .uio_oe(uio_oe),  // IOs: Enable path
       .clk   (clk),     // clock
       .rst_n (rst_n)    // not reset
   );
