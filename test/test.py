@@ -32,12 +32,9 @@ async def test_loopback(dut):
     for _ in range(400):
         ui, uio = rng.randrange(256), rng.randrange(1 << N)
         dut.ui_in.value = ui
-        dut.uio_in.value = uio
         await Timer(1, unit="us")
         uo, oe, out = loopback(ui, uio)
         assert dut.uo_out.value == uo
-        assert dut.uio_oe.value == oe
-        assert dut.uio_out.value == out
 
 
 @cocotb.test()
@@ -46,13 +43,10 @@ async def test_counter(dut):
     clock = Clock(dut.clk, 10, unit="us")
     cocotb.start_soon(clock.start())
     dut.ui_in.value = MASK
-    dut.uio_in.value = 0
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 10)
     dut.rst_n.value = 1
     await ClockCycles(dut.clk, 2)
     for i in range(300):
         assert dut.uo_out.value == (i & 0xFF) ^ K
-        assert dut.uio_out.value == (0 if DAY0 else i & MASK)
-        assert dut.uio_oe.value == (0 if DAY0 else MASK)
         await ClockCycles(dut.clk, 1)

@@ -1,6 +1,6 @@
 # Tiny Tapeout project information
 project:
-  title:        "Micro tile mgf_r2_d0b (2 uio)"      # Project title
+  title:        "Micro tile mgf_r0_d0b (no uio, baseline)"      # Project title
   author:       "Tiny Tapeout"      # Your name
   discord:      ""      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
   description:  "Micro tile test: day-0, uio not used, counter with uio"      # One line description of what your project does
@@ -8,16 +8,16 @@ project:
   clock_hz:     0       # Clock frequency in Hz (or 0 if not applicable)
 
   # A micro tile is 151.2x66.64 um. Four of them fit inside a 1x1 container project.
-  tiles: "micro_r2"
+  tiles: "micro"
 
   # Your top module name must start with "tt_um_". Make it unique by including your github username:
-  top_module:  "tt_um_mgf_r2_d0b"
+  top_module:  "tt_um_mgf_r0_d0b"
 
   # List your project's source files here.
   # Source files must be in ./src and you must list each source file separately, one per line.
   # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
   source_files:
-    - "tt_um_mgf_r2_d0b.v"
+    - "tt_um_mgf_r0_d0b.v"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 # This section is for the datasheet/website. Use descriptive names (e.g., RX, TX, MOSI, SCL, SEG_A, etc.).
